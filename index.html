@@ -4,54 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kørekort – designstudie</title>
-
 <style>
 :root{
   --bg:#061528;
   --bg-2:#0b1f3a;
-  --ink:#1c1b5e;
-  --ink-soft:#4a4a86;
-  --pink:#f7c9dc;
-  --lilac:#e6b6f8;
-  --blush:#fbd9e6;
+  --ink:#1a1450;
+  --ink-soft:#5a4a8a;
   --white:#f4f6fb;
   --muted:#8b95ab;
-  box-sizing:border-box;
 }
 
-html{
-  scroll-padding-top:env(safe-area-inset-top,0px);
-  height:100%;
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-}
-
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
 body{
-  height:100%;
   background:#020a15;
   color:var(--white);
-  font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,sans-serif;
+  display:flex;align-items:center;justify-content:center;
   -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  touch-action:none;
 }
 
 .phone{
-  width:100%;
-  height:100%;
-  max-width:420px;
-  max-height:880px;
+  width:100%;height:100%;
+  max-width:420px;max-height:880px;
   background:var(--bg);
-  display:flex;
-  flex-direction:column;
-  position:relative;
-  overflow:hidden;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+  touch-action:none;
 }
-
 @media (min-width:480px) and (min-height:700px){
   .phone{
     border-radius:38px;
@@ -62,1458 +44,455 @@ body{
 }
 
 header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:18px 20px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px 12px;
 }
-
 header h1{
-  font-size:19px;
-  font-weight:600;
-  letter-spacing:.12em;
-  display:flex;
-  align-items:center;
-  gap:12px;
+  font-size:17px;font-weight:600;letter-spacing:.13em;
+  display:flex;align-items:center;gap:9px;
 }
-
-.logo{
-  width:40px;
-  height:32px;
-  display:grid;
-  place-items:center;
-  color:var(--white);
-}
-
-.logo svg{
-  width:34px;
-  height:28px;
-  display:block;
-}
-
+.logo{width:30px;height:22px;display:grid;place-items:center;background:transparent;}
+.logo img{width:28px;height:20px;display:block;object-fit:contain;}
 .dots{
-  background:none;
-  border:0;
-  color:var(--white);
-  font-size:26px;
-  letter-spacing:2px;
-  cursor:pointer;
-  line-height:1;
-  padding:4px 6px;
-  border-radius:8px;
+  background:none;border:0;color:#fff;
+  font-size:24px;letter-spacing:2px;cursor:pointer;
+  line-height:1;padding:4px 4px;
 }
 
-main{
-  flex:1;
-  overflow:auto;
-  padding:6px 14px 16px;
-  position:relative;
-}
+main{flex:1;overflow:hidden;padding:4px 14px 14px;position:relative}
+.view{display:none}
+.view.on{display:block}
 
-.view{
-  display:none;
-}
-
-.view.on{
-  display:block;
-}
-
-/* KORT */
-
-.scene{
-  perspective:1100px;
-}
+/* ========== KORT ========== */
+.scene{perspective:1200px}
 
 .card{
-  --rx:0deg;
-  --ry:0deg;
-  --gx:50%;
-  --gy:30%;
-
+  --rx:0deg;--ry:0deg;--gx:50%;--gy:28%;
   position:relative;
-  border-radius:14px;
-  min-height:640px;
-  padding:24px 22px 20px;
+  border-radius:16px;
+  min-height:620px;
+  padding:20px 18px 16px;
   color:var(--ink);
   cursor:pointer;
-
   background:
-    radial-gradient(
-      circle at var(--gx) var(--gy),
-      rgba(255,255,255,.55),
-      transparent 45%
-    ),
-    radial-gradient(
-      ellipse at 30% 55%,
-      var(--lilac),
-      transparent 60%
-    ),
-    linear-gradient(
-      160deg,
-      var(--pink),
-      var(--blush) 55%,
-      var(--pink)
-    );
-
+    radial-gradient(circle at var(--gx) var(--gy), rgba(255,255,255,.55), transparent 40%),
+    radial-gradient(ellipse at 75% 15%, rgba(230,170,240,.35), transparent 50%),
+    linear-gradient(168deg, #f9c6da 0%, #f5d4e9 35%, #efc8f0 65%, #f7cce4 100%);
   transform:rotateX(var(--rx)) rotateY(var(--ry));
-  transition:transform .25s ease-out;
-
-  box-shadow:0 18px 40px rgba(0,0,0,.35);
-
-  display:flex;
-  flex-direction:column;
+  transition:transform .22s ease-out;
+  box-shadow:0 16px 36px rgba(0,0,0,.32);
+  display:flex;flex-direction:column;
   overflow:hidden;
 }
 
+/* Soft horizontal wave pattern like the real card */
 .card::before{
   content:"";
-  position:absolute;
-  inset:0;
-  opacity:.35;
+  position:absolute;inset:0;
+  opacity:.32;
   pointer-events:none;
-
-  background:
+  background-image:
     repeating-linear-gradient(
-      172deg,
-      transparent 0 5px,
-      rgba(120,90,200,.16) 5px 6px
+      0deg,
+      transparent 0 10px,
+      rgba(170,90,190,.13) 10px 11px
     );
+  background-size:100% 22px;
 }
 
-.card > *{
-  position:relative;
-}
+.card > *{position:relative;z-index:2}
 
 .top{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
+  display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
 }
-
 .issuer{
-  font-size:15px;
-  line-height:1.35;
-  font-weight:400;
+  font-size:13.5px;line-height:1.38;font-weight:400;color:#3d2a6e;
 }
 
 .portrait{
-  width:140px;
-  height:170px;
-  border-radius:10px;
-  border:2px solid #fff;
+  width:132px;height:160px;
+  border-radius:9px;
+  border:2.5px solid #fff;
   flex:none;
-
-  background:linear-gradient(
-    180deg,
-    #d9dbe6,
-    #a9aec4
-  );
-
+  background:linear-gradient(180deg,#e4e6f0,#b0b5c8);
   overflow:hidden;
   position:relative;
-
-  box-shadow:0 4px 12px rgba(40,30,100,.25);
+  box-shadow:0 3px 12px rgba(40,30,90,.2);
+  z-index:3;
 }
-
-.portrait svg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-}
-
-.portrait img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
+.portrait svg,.portrait img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
 }
 
 .name{
   margin-top:26px;
-  font-size:34px;
-  line-height:1.28;
-  font-weight:600;
-  max-width:200px;
+  font-size:32px;line-height:1.2;font-weight:650;
+  max-width:200px;color:#1a1450;letter-spacing:-.015em;
 }
 
 .facts{
   margin-top:auto;
   display:grid;
-  grid-template-columns:1.25fr .7fr 1fr;
+  grid-template-columns:1.15fr .7fr 1.2fr;
   gap:6px;
+  padding-top:6px;
 }
-
 .facts dt{
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:.04em;
-  color:var(--ink-soft);
+  font-size:11px;font-weight:600;letter-spacing:.04em;
+  color:#5c4a8c;text-transform:uppercase;
 }
-
 .facts dd{
-  font-size:21px;
-  font-weight:600;
-  margin-top:2px;
+  font-size:19px;font-weight:650;margin-top:2px;color:#1a1450;
 }
 
 .chip{
   align-self:center;
-  margin:46px 0 26px;
-  display:inline-flex;
-  gap:10px;
-  align-items:center;
-  border:1.5px solid var(--ink);
+  margin:32px 0 18px;
+  display:inline-flex;gap:8px;align-items:center;
+  border:1.5px solid #2a1a5e;
   border-radius:8px;
-  padding:8px 16px;
-  font-weight:600;
-  font-size:19px;
+  padding:6px 14px;
+  font-weight:650;font-size:17px;
+  color:#1a1450;
+  background:rgba(255,255,255,.22);
 }
 
+/* DK seal */
 .stamp{
   position:absolute;
-  right:-6px;
-  top:150px;
-  width:150px;
-  height:150px;
-  opacity:.55;
+  right:98px;
+  top:52px;
+  width:142px;height:142px;
+  opacity:.48;
   pointer-events:none;
-  transform:rotate(-12deg);
+  transform:rotate(-6deg);
+  z-index:1;
 }
 
 .updated{
-  text-align:center;
-  font-size:14px;
+  text-align:center;font-size:13px;color:#3d2a6e;
 }
-
-.updated b{
-  font-weight:600;
-}
+.updated b{font-weight:600}
 
 .notice{
-  margin-top:12px;
-  text-align:center;
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-  padding:0 10px;
+  margin-top:12px;text-align:center;
+  font-size:11.5px;color:var(--muted);line-height:1.45;padding:0 8px;
 }
 
-/* INFO + INDSTILLINGER */
-
-.panel{
-  background:var(--bg-2);
-  border-radius:14px;
-  padding:6px 18px;
-  margin-bottom:14px;
-}
-
+/* INFO + SETTINGS */
+.panel{background:var(--bg-2);border-radius:14px;padding:6px 16px;margin-bottom:12px}
 .row{
-  display:flex;
-  justify-content:space-between;
-  gap:16px;
-  padding:15px 0;
-  border-bottom:1px solid #1a3050;
-  font-size:15px;
+  display:flex;justify-content:space-between;gap:14px;
+  padding:14px 0;border-bottom:1px solid #1a3050;font-size:14.5px;
 }
+.row:last-child{border-bottom:0}
+.row span:first-child{color:var(--muted)}
+.row span:last-child{text-align:right;font-weight:500}
 
-.row:last-child{
-  border-bottom:0;
-}
-
-.row span:first-child{
-  color:var(--muted);
-}
-
-.row span:last-child{
-  text-align:right;
-  font-weight:500;
-}
-
-h2{
-  font-size:22px;
-  font-weight:600;
-  margin:10px 4px 14px;
-}
-
-.hint{
-  font-size:13px;
-  color:var(--muted);
-  margin:0 4px 16px;
-  line-height:1.5;
-}
+h2{font-size:20px;font-weight:600;margin:8px 4px 12px}
+.hint{font-size:12.5px;color:var(--muted);margin:0 4px 14px;line-height:1.45}
 
 .switch{
-  width:46px;
-  height:28px;
-  border-radius:99px;
-  background:#27405f;
-  border:0;
-  position:relative;
-  cursor:pointer;
-  flex:none;
+  width:44px;height:26px;border-radius:99px;
+  background:#27405f;border:0;position:relative;cursor:pointer;flex:none;
   transition:background .2s;
 }
-
 .switch::after{
-  content:"";
-  position:absolute;
-  top:3px;
-  left:3px;
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  background:#fff;
+  content:"";position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;background:#fff;
   transition:transform .2s;
 }
+.switch[aria-checked="true"]{background:#c9a0e8}
+.switch[aria-checked="true"]::after{transform:translateX(18px)}
 
-.switch[aria-checked="true"]{
-  background:var(--lilac);
-}
+.opt{align-items:center}
+.opt span:first-child{color:#fff}
+.opt small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 
-.switch[aria-checked="true"]::after{
-  transform:translateX(18px);
-}
-
-.opt{
-  align-items:center;
-}
-
-.opt span:first-child{
-  color:var(--white);
-}
-
-.opt small{
-  display:block;
-  color:var(--muted);
-  font-size:12.5px;
-  margin-top:3px;
-}
-
-.edit{
-  display:grid;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-.edit label{
-  font-size:13px;
-  color:var(--muted);
-}
-
+.edit{display:grid;gap:9px;margin-bottom:12px}
+.edit label{font-size:12.5px;color:var(--muted)}
 .edit input{
-  width:100%;
-  margin-top:6px;
-  background:var(--bg-2);
-  border:1px solid #1a3050;
-  border-radius:10px;
-  color:var(--white);
-  padding:12px 14px;
-  font:inherit;
+  width:100%;margin-top:5px;
+  background:var(--bg-2);border:1px solid #1a3050;
+  border-radius:10px;color:#fff;padding:11px 13px;font:inherit;
 }
-
-/* FIL-UPLOAD */
-
-.photo-upload{
-  margin-top:4px;
-}
-
-.photo-upload input[type="file"]{
-  cursor:pointer;
-  padding:10px;
-}
-
+.photo-upload input[type="file"]{cursor:pointer;padding:8px}
 .photo-preview{
-  width:90px;
-  height:110px;
-  margin-top:8px;
-  border-radius:8px;
-  overflow:hidden;
-  border:1px solid #1a3050;
-  background:#071a30;
-  display:none;
+  width:84px;height:102px;margin-top:7px;
+  border-radius:7px;overflow:hidden;
+  border:1px solid #1a3050;background:#071a30;display:none;
 }
+.photo-preview img{width:100%;height:100%;object-fit:cover}
 
-.photo-preview img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* BUNDMENU */
-
+/* NAV */
 nav{
-  display:flex;
-  justify-content:space-around;
-  padding:10px 8px 14px;
-  border-top:1px solid #12294a;
-  background:var(--bg);
+  display:flex;justify-content:space-around;
+  padding:9px 6px 13px;
+  border-top:1px solid #12294a;background:var(--bg);
 }
-
 nav button{
-  background:none;
-  border:0;
-  color:var(--muted);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-  font:inherit;
-  font-size:13.5px;
-  cursor:pointer;
-  padding:6px 10px;
-  border-radius:12px;
+  background:none;border:0;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  font:inherit;font-size:12.5px;cursor:pointer;
+  padding:5px 8px;border-radius:11px;
 }
+nav button svg{width:28px;height:28px}
+nav button[aria-selected="true"]{color:#fff}
+nav button[aria-selected="true"] .ico{background:#fff;color:var(--bg)}
+.ico{width:42px;height:32px;border-radius:8px;display:grid;place-items:center}
 
-nav button svg{
-  width:30px;
-  height:30px;
+button:focus-visible,input:focus-visible,.card:focus-visible{
+  outline:2.5px solid #c9a0e8;outline-offset:2px;
 }
-
-nav button[aria-selected="true"]{
-  color:var(--white);
-}
-
-nav button[aria-selected="true"] .ico{
-  background:var(--white);
-  color:var(--bg);
-}
-
-.ico{
-  width:44px;
-  height:34px;
-  border-radius:9px;
-  display:grid;
-  place-items:center;
-}
-
-button:focus-visible,
-input:focus-visible,
-.card:focus-visible{
-  outline:3px solid var(--lilac);
-  outline-offset:2px;
-}
-
 @media (prefers-reduced-motion:reduce){
-  .card,
-  .switch,
-  .switch::after{
-    transition:none;
-  }
+  .card,.switch,.switch::after{transition:none}
 }
 </style>
 </head>
-
 <body>
-
 <div class="phone">
-
 <header>
   <h1>
-
     <span class="logo" aria-hidden="true">
-      <svg viewBox="0 0 64 52" xmlns="http://www.w3.org/2000/svg">
-        <path
-          fill="currentColor"
-          d="M7 16l8 7 8-14 9 13 9-13 8 14 8-7-5 28H12L7 16zm7 23h36M17 34h30"
-        />
-      </svg>
+      <img src="data:image/png;base64,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" alt="" style="width:28px;height:20px;display:block;object-fit:contain;">
     </span>
-
     KØREKORT
-
   </h1>
-
-  <button
-    class="dots"
-    id="menuBtn"
-    aria-label="Åbn indstillinger"
-  >
-    •••
-  </button>
+  <button class="dots" id="menuBtn" aria-label="Åbn indstillinger">•••</button>
 </header>
 
-
 <main>
-
-<!-- KORT -->
-
-<section
-  class="view on"
-  id="v-card"
-  aria-label="Kort"
->
-
+<section class="view on" id="v-card" aria-label="Kort">
   <div class="scene">
+    <div class="card" id="card" tabindex="0" role="button" aria-label="Åbn kortinfo">
 
-    <div
-      class="card"
-      id="card"
-      tabindex="0"
-      role="button"
-      aria-label="Åbn kortinfo"
-    >
-
-      <svg
-        class="stamp"
-        viewBox="0 0 100 100"
-        aria-hidden="true"
-      >
-        <circle
-          cx="50"
-          cy="50"
-          r="46"
-          fill="none"
-          stroke="#7a5fd0"
-          stroke-width=".8"
-          stroke-dasharray="2 2"
-        />
-
-        <circle
-          cx="50"
-          cy="50"
-          r="34"
-          fill="none"
-          stroke="#e07aa8"
-          stroke-width=".8"
-        />
-
-        <circle
-          cx="50"
-          cy="50"
-          r="22"
-          fill="none"
-          stroke="#7a5fd0"
-          stroke-width=".8"
-          stroke-dasharray="1 2"
-        />
-
-        <text
-          x="50"
-          y="58"
-          text-anchor="middle"
-          font-size="22"
-          font-weight="700"
-          fill="#7a5fd0"
-          opacity=".8"
-        >
-          EX
+      <!-- Realistic DK seal -->
+      <svg class="stamp" viewBox="0 0 160 160" aria-hidden="true">
+        <defs>
+          <path id="textCircle" d="M80,80 m-54,0 a54,54 0 1,1 108,0 a54,54 0 1,1 -108,0"/>
+        </defs>
+        <circle cx="80" cy="80" r="70" fill="none" stroke="#8b6bc9" stroke-width="1.3" opacity=".55"/>
+        <circle cx="80" cy="80" r="63" fill="none" stroke="#c48bb8" stroke-width="1" opacity=".48"/>
+        <circle cx="80" cy="80" r="55" fill="none" stroke="#8b6bc9" stroke-width=".85" opacity=".4"/>
+        <circle cx="80" cy="80" r="46" fill="none" stroke="#9a7ad0" stroke-width=".75" stroke-dasharray="2.2 2.2" opacity=".42"/>
+        <text fill="#7a5fc0" font-size="9.2" font-weight="600" letter-spacing="2" opacity=".72">
+          <textPath href="#textCircle" startOffset="1%">DANMARK • DANMARK • DANMARK • DANMARK •</textPath>
         </text>
+        <text x="80" y="91" text-anchor="middle" font-size="34" font-weight="700" fill="#7a5fc0" opacity=".78">DK</text>
       </svg>
-
 
       <div class="top">
-
         <p class="issuer">
           Færdselsstyrelsen<br>
-          <span id="issued">
-            14. maj 2024
-          </span>
+          <span id="issued">14. maj 2024</span>
         </p>
-
-
-        <div
-          class="portrait"
-          id="portrait"
-          aria-label="Billede"
-        >
-
-          <svg
-            viewBox="0 0 140 170"
-            id="defaultPortrait"
-          >
-            <circle
-              cx="70"
-              cy="68"
-              r="28"
-              fill="#f4f6fb"
-              opacity=".85"
-            />
-
-            <path
-              d="M18 170c4-42 28-58 52-58s48 16 52 58z"
-              fill="#f4f6fb"
-              opacity=".85"
-            />
+        <div class="portrait" id="portrait" aria-label="Billede">
+          <svg viewBox="0 0 140 170" id="defaultPortrait">
+            <circle cx="70" cy="66" r="27" fill="#f0f2f8" opacity=".9"/>
+            <path d="M20 170c4-40 26-55 50-55s46 15 50 55z" fill="#f0f2f8" opacity=".9"/>
           </svg>
-
         </div>
-
       </div>
 
-
-      <p
-        class="name"
-        id="nameOut"
-      >
-        Alex<br>
-        Eksempel<br>
-        Madsen
-      </p>
-
+      <p class="name" id="nameOut">Alex<br>Eksempel<br>Madsen</p>
 
       <dl class="facts">
-
         <div>
           <dt>FØDSELSDATO</dt>
-          <dd id="dobOut">
-            14.05.1999
-          </dd>
+          <dd id="dobOut">14.05.1999</dd>
         </div>
-
         <div>
           <dt>ALDER</dt>
-          <dd id="ageOut">
-            –
-          </dd>
+          <dd id="ageOut">–</dd>
         </div>
-
         <div>
-          <dt>KORTNR</dt>
-          <dd id="numOut">
-            00000000
-          </dd>
+          <dt>KØREKORTNR</dt>
+          <dd id="numOut">00000000</dd>
         </div>
-
       </dl>
 
-
-      <span
-        class="chip"
-        aria-label="Kategori"
-      >
-
-        <svg
-          width="30"
-          height="22"
-          viewBox="0 0 30 22"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-        >
-          <circle cx="6" cy="16" r="3.5"/>
-          <circle cx="24" cy="16" r="3.5"/>
-          <path d="M9.5 16h11"/>
-          <path d="M20 16l-3-9h-4"/>
-          <path d="M4 8h6"/>
+      <span class="chip" aria-label="Kategori">
+        <svg width="26" height="18" viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="6" cy="16" r="3.3"/>
+          <circle cx="24" cy="16" r="3.3"/>
+          <path d="M9.3 16h11.4"/>
+          <path d="M19.8 16l-2.8-8.5h-3.8"/>
+          <path d="M4.2 8.2h5.5"/>
         </svg>
-
-        <span id="catOut">
-          LK
-        </span>
-
+        <span id="catOut">LK</span>
       </span>
 
-
-      <p class="updated">
-        <b>Sidst opdateret:</b>
-        <span id="updOut"></span>
-      </p>
-
+      <p class="updated"><b>Sidst opdateret:</b> <span id="updOut"></span></p>
     </div>
-
   </div>
-
-
-  <p class="notice">
-    Designstudie med fiktive data.
-    Ikke et gyldigt kørekort eller en gyldig legitimation.
-  </p>
 
 </section>
 
-
-<!-- INFO -->
-
-<section
-  class="view"
-  id="v-info"
-  aria-label="Kortinfo"
->
-
+<section class="view" id="v-info" aria-label="Kortinfo">
   <h2>Kortinfo</h2>
-
   <div class="panel">
-
-    <div class="row">
-      <span>Kategori</span>
-      <span id="i-cat">
-        LK – let knallert
-      </span>
-    </div>
-
-    <div class="row">
-      <span>Udstedt</span>
-      <span id="i-iss">
-        14. maj 2026
-      </span>
-    </div>
-
-    <div class="row">
-      <span>Udløber</span>
-      <span>
-        14. maj 2034
-      </span>
-    </div>
-
-    <div class="row">
-      <span>Betingelser</span>
-      <span>
-        Ingen
-      </span>
-    </div>
-
+    <div class="row"><span>Kategori</span><span id="i-cat">LK – let knallert</span></div>
+    <div class="row"><span>Udstedt</span><span id="i-iss">14. maj 2024</span></div>
+    <div class="row"><span>Udløber</span><span>14. maj 2034</span></div>
+    <div class="row"><span>Betingelser</span><span>Ingen</span></div>
   </div>
-
-  <p class="hint">
-    Alle oplysninger her er opdigtede
-    og kun til at vise designet.
-  </p>
-
+  
 </section>
 
-
-<!-- INDSTILLINGER -->
-
-<section
-  class="view"
-  id="v-set"
-  aria-label="Indstillinger"
->
-
+<section class="view" id="v-set" aria-label="Indstillinger">
   <h2>Tilpas</h2>
-
-
   <div class="edit">
-
-    <label>
-      Navn
-
-      <input
-        id="inName"
-        value="Alex Eksempel Madsen"
-        maxlength="40"
-      >
+    <label>Navn<input id="inName" value="Alex Eksempel Madsen" maxlength="40"></label>
+    <label>Fødselsdato<input id="inDob" type="date" value="1999-05-14"></label>
+    <label>Kategori<input id="inCat" value="LK" maxlength="3"></label>
+    <label>Kortnummer<input id="inNum" value="00000000" maxlength="10"></label>
+    <label class="photo-upload">Billede
+      <input id="inPhoto" type="file" accept="image/*">
+      <div class="photo-preview" id="photoPreview"><img id="photoPreviewImg" alt="Forhåndsvisning"></div>
     </label>
-
-
-    <label>
-      Fødselsdato
-
-      <input
-        id="inDob"
-        type="date"
-        value="1999-05-14"
-      >
-    </label>
-
-
-    <label>
-      Kategori
-
-      <input
-        id="inCat"
-        value="LK"
-        maxlength="3"
-      >
-    </label>
-
-
-    <!-- NYT: BILLEDE -->
-
-    <label class="photo-upload">
-      Billede
-
-      <input
-        id="inPhoto"
-        type="file"
-        accept="image/*"
-      >
-
-      <div
-        class="photo-preview"
-        id="photoPreview"
-      >
-        <img
-          id="photoPreviewImg"
-          alt="Forhåndsvisning"
-        >
-      </div>
-
-    </label>
-
   </div>
-
-
   <div class="panel">
-
     <div class="row opt">
-
-      <span>
-        Bevægelse i kortet
-
-        <small>
-          Kortet lyser og vipper,
-          når du rører det
-        </small>
-
-      </span>
-
-      <button
-        class="switch"
-        id="tiltSw"
-        role="switch"
-        aria-checked="true"
-        aria-label="Bevægelse i kortet"
-      ></button>
-
+      <span>Bevægelse i kortet<small>Kortet lyser og vipper, når du rører det</small></span>
+      <button class="switch" id="tiltSw" role="switch" aria-checked="true" aria-label="Bevægelse i kortet"></button>
     </div>
-
   </div>
-
-
-  <p class="hint">
-    Navn, fødselsdato, kategori og billede
-    her er til at prøve layoutet af med
-    dine egne fiktive eksempler.
-  </p>
-
+  
 </section>
-
 </main>
 
-
-<!-- BUNDMENU -->
-
-<nav
-  role="tablist"
-  aria-label="Hovedmenu"
->
-
-  <button
-    role="tab"
-    aria-selected="true"
-    data-v="card"
-  >
-
-    <span class="ico">
-
-      <svg
-        viewBox="0 0 30 30"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <rect
-          x="5"
-          y="8"
-          width="20"
-          height="14"
-          rx="3"
-        />
-
-        <path d="M10 13h3"/>
-        <path d="M10 17h8"/>
-      </svg>
-
-    </span>
-
+<nav role="tablist" aria-label="Hovedmenu">
+  <button role="tab" aria-selected="true" data-v="card">
+    <span class="ico"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="8" width="20" height="14" rx="3"/><path d="M10 13h3"/><path d="M10 17h8"/></svg></span>
     Kørekort
-
   </button>
-
-
-  <button
-    role="tab"
-    aria-selected="false"
-    data-v="info"
-  >
-
-    <span class="ico">
-
-      <svg
-        viewBox="0 0 30 30"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <circle
-          cx="15"
-          cy="15"
-          r="10"
-        />
-
-        <path d="M15 14v6"/>
-        <path d="M15 10.5v.5"/>
-      </svg>
-
-    </span>
-
+  <button role="tab" aria-selected="false" data-v="info">
+    <span class="ico"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2"><circle cx="15" cy="15" r="10"/><path d="M15 14v6"/><path d="M15 10.5v.5"/></svg></span>
     Kortinfo
-
   </button>
-
-
-  <button
-    role="tab"
-    aria-selected="false"
-    data-v="scan"
-  >
-
-    <span class="ico">
-
-      <svg
-        viewBox="0 0 30 30"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-
-        <path d="M7 11V7h4"/>
-        <path d="M19 7h4v4"/>
-        <path d="M23 19v4h-4"/>
-        <path d="M11 23H7v-4"/>
-        <path d="M10 15h10"/>
-
-      </svg>
-
-    </span>
-
+  <button role="tab" aria-selected="false" data-v="scan">
+    <span class="ico"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 11V7h4"/><path d="M19 7h4v4"/><path d="M23 19v4h-4"/><path d="M11 23H7v-4"/><path d="M10 15h10"/></svg></span>
     Scan
-
   </button>
-
-
-  <button
-    role="tab"
-    aria-selected="false"
-    data-v="control"
-  >
-
-    <span class="ico">
-
-      <svg
-        viewBox="0 0 30 30"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-
-        <rect
-          x="5"
-          y="5"
-          width="7"
-          height="7"
-          rx="1"
-        />
-
-        <rect
-          x="18"
-          y="5"
-          width="7"
-          height="7"
-          rx="1"
-        />
-
-        <rect
-          x="5"
-          y="18"
-          width="7"
-          height="7"
-          rx="1"
-        />
-
-        <path d="M18 18h3v3h-3z"/>
-        <path d="M23 18v3"/>
-        <path d="M18 23h3"/>
-        <path d="M23 23h2"/>
-
-      </svg>
-
-    </span>
-
+  <button role="tab" aria-selected="false" data-v="control">
+    <span class="ico"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="5" width="7" height="7" rx="1"/><rect x="18" y="5" width="7" height="7" rx="1"/><rect x="5" y="18" width="7" height="7" rx="1"/><path d="M18 18h3v3h-3z"/><path d="M23 18v3"/><path d="M18 23h3"/><path d="M23 23h2"/></svg></span>
     Kontrol
-
   </button>
-
 </nav>
-
 </div>
 
-
 <script>
-
 const $ = s => document.querySelector(s);
-
-const months = [
-  "jan.",
-  "feb.",
-  "mar.",
-  "apr.",
-  "maj",
-  "jun.",
-  "jul.",
-  "aug.",
-  "sep.",
-  "okt.",
-  "nov.",
-  "dec."
-];
-
-const catNames = {
-  LK:"let knallert",
-  AM:"lille knallert",
-  B:"personbil"
-};
-
+const months = ["jan.","feb.","mar.","apr.","maj","jun.","jul.","aug.","sep.","okt.","nov.","dec."];
+const catNames = {LK:"let knallert",AM:"lille knallert",B:"personbil"};
 let tilt = true;
 
-
-/* RENDER */
-
 function render(){
-
-  const name =
-    $("#inName").value.trim() ||
-    "Alex Eksempel";
-
-  $("#nameOut").innerHTML =
-    name
-      .split(/\s+/)
-      .map(w =>
-        w.replace(/</g,"&lt;")
-      )
-      .join("<br>");
-
-
-  const d =
-    new Date($("#inDob").value);
-
+  const name = $("#inName").value.trim() || "Alex Eksempel Madsen";
+  $("#nameOut").innerHTML = name.split(/\\s+/).map(w => w.replace(/</g,"&lt;")).join("<br>");
+  const d = new Date($("#inDob").value);
   if(!isNaN(d)){
-
-    const p =
-      n => String(n).padStart(2,"0");
-
-    $("#dobOut").textContent =
-      `${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()}`;
-
-
-    const now =
-      new Date();
-
-    let age =
-      now.getFullYear() -
-      d.getFullYear();
-
-    if(
-      now <
-      new Date(
-        now.getFullYear(),
-        d.getMonth(),
-        d.getDate()
-      )
-    ){
-      age--;
-    }
-
-    $("#ageOut").textContent =
-      age + " år";
+    const p = n => String(n).padStart(2,"0");
+    $("#dobOut").textContent = `${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()}`;
+    const now = new Date();
+    let age = now.getFullYear() - d.getFullYear();
+    if(now < new Date(now.getFullYear(), d.getMonth(), d.getDate())) age--;
+    $("#ageOut").textContent = age + " år";
   }
-
-
-  const cat =
-    (
-      $("#inCat").value.trim() ||
-      "LK"
-    ).toUpperCase();
-
-  $("#catOut").textContent =
-    cat;
-
-  $("#i-cat").textContent =
-    catNames[cat]
-      ? `${cat} – ${catNames[cat]}`
-      : cat;
+  const cat = ($("#inCat").value.trim() || "LK").toUpperCase();
+  $("#catOut").textContent = cat;
+  $("#i-cat").textContent = catNames[cat] ? `${cat} – ${catNames[cat]}` : cat;
+  $("#numOut").textContent = $("#inNum").value.trim() || "00000000";
 }
-
-
-/* DATO */
 
 function stamp(){
-
-  const n =
-    new Date();
-
-  $("#issued").textContent =
-    `${n.getDate()}. ${months[n.getMonth()]} ${n.getFullYear()}`;
-
-  $("#updOut").textContent =
-    `${n.getDate()}. ${months[n.getMonth()]} ${n.getFullYear()} kl. ${
-      String(n.getHours()).padStart(2,"0")
-    }.${
-      String(n.getMinutes()).padStart(2,"0")
-    }`;
+  const n = new Date();
+  const dateStr = `${n.getDate()}. ${months[n.getMonth()]} ${n.getFullYear()}`;
+  $("#issued").textContent = dateStr;
+  $("#i-iss").textContent = dateStr;
+  $("#updOut").textContent = `${dateStr} kl. ${String(n.getHours()).padStart(2,"0")}.${String(n.getMinutes()).padStart(2,"0")}`;
 }
 
-
-/* INPUTS */
-
-[
-  "inName",
-  "inDob",
-  "inCat"
-].forEach(id => {
-
-  $("#" + id)
-    .addEventListener(
-      "input",
-      render
-    );
-
-});
-
-
-/* KORTNUMMER */
-
-$("#numOut").textContent =
-  "00000000";
-
-
-/* SKIFT SIDE */
+["inName","inDob","inCat","inNum"].forEach(id => $("#"+id).addEventListener("input", render));
 
 function show(v){
-
-  document
-    .querySelectorAll(".view")
-    .forEach(e =>
-      e.classList.toggle(
-        "on",
-        e.id === "v-" + v
-      )
-    );
-
-
-  document
-    .querySelectorAll("nav button")
-    .forEach(b =>
-      b.setAttribute(
-        "aria-selected",
-        b.dataset.v === v
-      )
-    );
-
-
+  document.querySelectorAll(".view").forEach(e => e.classList.toggle("on", e.id === "v-"+v));
+  document.querySelectorAll("nav button").forEach(b => b.setAttribute("aria-selected", b.dataset.v === v));
   $("main").scrollTop = 0;
 }
 
-
-/* MENU */
-
-document
-  .querySelectorAll("nav button")
-  .forEach(b => {
-
-    b.addEventListener(
-      "click",
-      () => {
-
-        /*
-          Scan og Kontrol har ikke
-          deres egne sider endnu.
-          De viser bare kortet.
-        */
-
-        if(
-          b.dataset.v === "scan" ||
-          b.dataset.v === "control"
-        ){
-
-          show("card");
-
-        }else{
-
-          show(b.dataset.v);
-
-        }
-
-      }
-    );
-
+document.querySelectorAll("nav button").forEach(b => {
+  b.addEventListener("click", () => {
+    if(b.dataset.v === "scan" || b.dataset.v === "control") show("card");
+    else show(b.dataset.v);
   });
+});
 
+$("#menuBtn").addEventListener("click", () => show("set"));
 
-/* INDSTILLINGER */
+$("#tiltSw").addEventListener("click", e => {
+  tilt = e.currentTarget.getAttribute("aria-checked") !== "true";
+  e.currentTarget.setAttribute("aria-checked", tilt);
+  if(!tilt) reset();
+});
 
-$("#menuBtn")
-  .addEventListener(
-    "click",
-    () => show("set")
-  );
-
-
-/* TILT */
-
-$("#tiltSw")
-  .addEventListener(
-    "click",
-    e => {
-
-      tilt =
-        e.currentTarget
-          .getAttribute("aria-checked")
-          !== "true";
-
-      e.currentTarget
-        .setAttribute(
-          "aria-checked",
-          tilt
-        );
-
-      if(!tilt){
-        reset();
-      }
-
-    }
-  );
-
-
-/* KORT BEVÆGELSE */
-
-const card =
-  $("#card");
-
-
+const card = $("#card");
 function reset(){
-
-  card.style.setProperty(
-    "--rx",
-    "0deg"
-  );
-
-  card.style.setProperty(
-    "--ry",
-    "0deg"
-  );
-
-  card.style.setProperty(
-    "--gx",
-    "50%"
-  );
-
-  card.style.setProperty(
-    "--gy",
-    "30%"
-  );
-
+  card.style.setProperty("--rx","0deg");
+  card.style.setProperty("--ry","0deg");
+  card.style.setProperty("--gx","50%");
+  card.style.setProperty("--gy","28%");
 }
-
-
 function move(x,y){
+  if(!tilt || matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const r = card.getBoundingClientRect();
+  const px = (x-r.left)/r.width;
+  const py = (y-r.top)/r.height;
+  card.style.setProperty("--ry", ((px-.5)*9)+"deg");
+  card.style.setProperty("--rx", ((.5-py)*7)+"deg");
+  card.style.setProperty("--gx", (px*100)+"%");
+  card.style.setProperty("--gy", (py*100)+"%");
+}
+card.addEventListener("pointermove", e => move(e.clientX, e.clientY));
+card.addEventListener("pointerleave", reset);
+card.addEventListener("click", () => show("info"));
+card.addEventListener("keydown", e => {
+  if(e.key === "Enter" || e.key === " "){ e.preventDefault(); show("info"); }
+});
 
-  if(
-    !tilt ||
-    matchMedia(
-      "(prefers-reduced-motion:reduce)"
-    ).matches
-  ){
-    return;
-  }
+$("#inPhoto").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if(!file || !file.type.startsWith("image/")) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const image = ev.target.result;
+    const def = $("#defaultPortrait");
+    if(def) def.style.display = "none";
+    const old = $("#portrait img");
+    if(old) old.remove();
+    const img = document.createElement("img");
+    img.src = image; img.alt = "Valgt billede";
+    $("#portrait").appendChild(img);
+    $("#photoPreview").style.display = "block";
+    $("#photoPreviewImg").src = image;
+  };
+  reader.readAsDataURL(file);
+});
 
-
-  const r =
-    card.getBoundingClientRect();
-
-
-  const px =
-    (x-r.left)/r.width;
-
-  const py =
-    (y-r.top)/r.height;
-
-
-  card.style.setProperty(
-    "--ry",
-    ((px-.5)*10)+"deg"
-  );
-
-  card.style.setProperty(
-    "--rx",
-    ((.5-py)*8)+"deg"
-  );
-
-  card.style.setProperty(
-    "--gx",
-    (px*100)+"%"
-  );
-
-  card.style.setProperty(
-    "--gy",
-    (py*100)+"%"
-  );
-
+// Random kørekortnummer hver gang siden åbnes
+function randomKortNr(){
+  let n = "";
+  for(let i=0;i<8;i++) n += Math.floor(Math.random()*10);
+  return n;
 }
 
-
-card.addEventListener(
-  "pointermove",
-  e =>
-    move(
-      e.clientX,
-      e.clientY
-    )
-);
-
-
-card.addEventListener(
-  "pointerleave",
-  reset
-);
-
-
-card.addEventListener(
-  "click",
-  () => show("info")
-);
-
-
-card.addEventListener(
-  "keydown",
-  e => {
-
-    if(
-      e.key === "Enter" ||
-      e.key === " "
-    ){
-
-      e.preventDefault();
-
-      show("info");
-
-    }
-
-  }
-);
-
-
-/* =========================
-   BILLEDE-UPLOAD
-   ========================= */
-
-$("#inPhoto")
-  .addEventListener(
-    "change",
-    e => {
-
-      const file =
-        e.target.files[0];
-
-      if(!file){
-        return;
-      }
-
-
-      /*
-        Tjekker at det faktisk
-        er et billede.
-      */
-
-      if(
-        !file.type.startsWith("image/")
-      ){
-
-        alert(
-          "Vælg venligst et billede."
-        );
-
-        e.target.value = "";
-
-        return;
-      }
-
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        event => {
-
-          const image =
-            event.target.result;
-
-
-          /*
-            Fjern placeholder-billedet
-          */
-
-          $("#defaultPortrait")
-            .style.display =
-            "none";
-
-
-          /*
-            Hvis der allerede
-            findes et billede,
-            fjernes det først.
-          */
-
-          const oldImage =
-            $("#portrait img");
-
-          if(oldImage){
-            oldImage.remove();
-          }
-
-
-          /*
-            Lav det nye billede
-          */
-
-          const img =
-            document.createElement("img");
-
-          img.src =
-            image;
-
-          img.alt =
-            "Valgt billede";
-
-
-          $("#portrait")
-            .appendChild(img);
-
-
-          /*
-            Vis forhåndsvisning
-            under upload-knappen
-          */
-
-          $("#photoPreview")
-            .style.display =
-            "block";
-
-          $("#photoPreviewImg")
-            .src =
-            image;
-
-        };
-
-
-      reader.readAsDataURL(file);
-
-    }
-  );
-
-
-/* START */
+const randomNum = randomKortNr();
+$("#numOut").textContent = randomNum;
+$("#inNum").value = randomNum;
 
 render();
-
 stamp();
-
 </script>
-
 </body>
 </html>
